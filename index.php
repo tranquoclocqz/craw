@@ -15,6 +15,7 @@ for ($i=1; $i < 2; $i++) {
 	$page_url = 'https://khanhvyhome.com.vn/index.php?route=product/productall&page='.$i;
 	$html = file_get_html($page_url);
 	foreach ($html->find('div.product-layout') as $layout) {
+		// data insert
 		$data = array();
 		$data['excerpt'] = $layout->find('p.letrai',0)->plaintext;
 		$data['page_url'] = $page_url;
@@ -32,7 +33,5 @@ for ($i=1; $i < 2; $i++) {
 		foreach ($page->find('div.tss') as $key => $value) {
 			$data['content'] .= $value;
 		}
-		dd($data);
-		die;
 	}
 }
