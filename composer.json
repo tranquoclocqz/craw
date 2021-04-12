@@ -1,0 +1,6 @@
+{
+    "require": {
+        "intervention/image": "^2.5",
+        "tommyknocker/pdo-database-class": "^1.1"
+    }
+}
