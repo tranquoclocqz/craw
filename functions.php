@@ -1,5 +1,5 @@
 <?php
-
+use Intervention\Image\ImageManagerStatic as Image;
 function dd($data)
 {
     echo '<pre>';
@@ -11,14 +11,16 @@ function preg_number($string)
 {
     return preg_replace('/[^0-9]/', '', $str);
 }
-function price($str){
-	$str = str_replace('.', '', $str);
-	$str = str_replace('đ', '', $str);
-	return $str;
+function price($str)
+{
+    $str = str_replace('.', '', $str);
+    $str = str_replace('đ', '', $str);
+    return $str;
 }
-function page($pageURL){
-	$pageURL = explode("?page=", $pageURL);
-	return $pageURL[0];
+function page($pageURL)
+{
+    $pageURL = explode("?page=", $pageURL);
+    return $pageURL[0];
 }
 function create_slug($title)
 {
@@ -50,4 +52,31 @@ function create_slug($title)
     $title = urldecode($title);
     $map   = array_merge($map, $default);
     return strtolower(preg_replace(array_keys($map), array_values($map), $title));
+}
+function clone_image($url, $new_name)
+{
+
+    $ext        = pathinfo($url, PATHINFO_EXTENSION);
+    $image_name = $new_name . '.' . $ext;
+    $path       = "images/";
+    $crop_path  = "crop/";
+    $ch         = curl_init($url);
+    $fp         = fopen($path . $image_name, 'wb');
+    curl_setopt($ch, CURLOPT_FILE, $fp);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_exec($ch);
+    curl_close($ch);
+    fclose($fp);
+
+    $image = Image::make($path.$image_name)->crop(690,621,54,91)->save($crop_path.$image_name,100,$ext);
+
+    return $image_name;
+}
+
+function replace_content($str){
+	$str = preg_replace('/<iframe.*?\/iframe>/','', $str);
+	$str = preg_replace('/<em.*?\/em>/','', $str);
+	$str = preg_replace("/<img[^>]+\>/i", "", $str);
+	$str = preg_replace('/<a ([^>]*)href="[^"]+"([^>]*)>/', '<a href="#">', $str);
+	return $str;
 }
