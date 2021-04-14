@@ -67,8 +67,9 @@ function clone_image($url, $new_name)
     curl_exec($ch);
     curl_close($ch);
     fclose($fp);
-
-    $image = Image::make($path.$image_name)->crop(690,621,54,91)->save($crop_path.$image_name,100,$ext);
+    if (is_file($path . $image_name)) {
+        $image = Image::make($path.$image_name)->crop(690,621,54,91)->save($crop_path.$image_name);
+    }
 
     return $image_name;
 }
