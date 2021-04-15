@@ -1,6 +1,6 @@
 <?php
 include "config.php";
-for ($i=101; $i <= 105; $i++) {
+for ($i=121; $i <= 160; $i++) {
 	$page_url = 'https://khanhvyhome.com.vn/index.php?route=product/productall&page='.$i;
 	$html = file_get_html($page_url);
 	foreach ($html->find('div.product-layout') as $layout) {
