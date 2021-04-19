@@ -1,6 +1,6 @@
 <?php
 include "config.php";
-for ($i=121; $i <= 160; $i++) {
+for ($i=201; $i <= 240; $i++) {
 	$page_url = 'https://khanhvyhome.com.vn/index.php?route=product/productall&page='.$i;
 	$html = file_get_html($page_url);
 	foreach ($html->find('div.product-layout') as $layout) {
@@ -18,6 +18,7 @@ for ($i=121; $i <= 160; $i++) {
 			$data['url'] = page($href);
 			$product_photo = $page->find('#product-zomm',0)->src;
 			if ($product_photo) {
+				$data['photo_url'] = $product_photo;
 				$data['photo'] = clone_image($product_photo,$slug);
 			}
 			$data['brand'] = $brand = $page->find('span[itemprop=brand]',0)->plaintext;
